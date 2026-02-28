@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatWave — Real-Time Chat</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<!-- ── Login Screen ─────────────────────────────────────────────────────────── -->
+<div id="login-screen" class="screen active">
+    <div class="login-container">
+        <div class="login-logo">
+            <div class="logo-mark">⬡</div>
+            <h1>ChatWave</h1>
+            <p class="login-sub">Real-time messaging. Multiple rooms. Zero friction.</p>
+        </div>
+        <div class="login-form">
+            <div class="field-group">
+                <label for="username-input">Your handle</label>
+                <input type="text" id="username-input" placeholder="e.g. nova_dev" maxlength="20" autocomplete="off">
+            </div>
+            <button id="join-btn" class="btn-primary">Connect →</button>
+            <p class="login-note">No account needed. Just pick a name.</p>
+        </div>
+    </div>
+    <div class="login-bg">
+        <div class="grid-overlay"></div>
+    </div>
+</div>
+
+<!-- ── Chat App ──────────────────────────────────────────────────────────────── -->
+<div id="app-screen" class="screen">
+    <div class="app-layout">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="brand">
+                    <span class="brand-mark">⬡</span>
+                    <span class="brand-name">ChatWave</span>
+                </div>
+                <div class="connection-status" id="conn-status">
+                    <span class="status-dot"></span>
+                    <span class="status-text">connecting</span>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="section-label">CHANNELS</div>
+                <nav class="room-list" id="room-list">
+                    <!-- Populated by JS -->
+                </nav>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="user-chip" id="user-chip">
+                    <span class="user-avatar" id="user-avatar">?</span>
+                    <span class="user-name" id="sidebar-username">—</span>
+                </div>
+                <div class="online-count">
+                    <span id="total-online">0</span> online
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Chat Area -->
+        <main class="chat-main">
+            <!-- Header -->
+            <header class="chat-header">
+                <div class="room-info">
+                    <h2 id="room-title">—</h2>
+                    <p id="room-description" class="room-desc">Select a channel to start chatting</p>
+                </div>
+                <div class="header-meta">
+                    <div class="room-online">
+                        <span class="pulse-dot"></span>
+                        <span id="room-online-count">0</span> here
+                    </div>
+                </div>
+            </header>
+
+            <!-- Messages -->
+            <div class="messages-wrapper">
+                <div id="messages" class="messages-container">
+                    <div class="empty-state" id="empty-state">
+                        <div class="empty-icon">✦</div>
+                        <p>Join a channel to start chatting</p>
+                    </div>
+                </div>
+
+                <!-- Typing Indicator -->
+                <div class="typing-bar" id="typing-bar">
+                    <div class="typing-dots">
+                        <span></span><span></span><span></span>
+                    </div>
+                    <span id="typing-text"></span>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="input-area" id="input-area">
+                <div class="input-row">
+                    <div class="input-wrapper">
+                        <input type="text" id="message-input"
+                               placeholder="Message #general…"
+                               maxlength="500"
+                               disabled>
+                        <span class="char-count" id="char-count">500</span>
+                    </div>
+                    <button id="send-btn" class="send-btn" disabled>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <!-- Right Sidebar — Online Users -->
+        <aside class="users-panel">
+            <div class="users-header">ONLINE</div>
+            <ul class="users-list" id="users-list">
+                <!-- Populated by JS -->
+            </ul>
+        </aside>
+
+    </div>
+</div>
+
+<!-- ── Scripts ───────────────────────────────────────────────────────────────── -->
+<!-- SockJS + STOMP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script th:src="@{/js/chat.js}"></script>
+
+</body>
+</html>
